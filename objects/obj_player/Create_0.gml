@@ -8,6 +8,7 @@ coyote_timer = 0;
 moveSpd = 2;
 jumpSpd = -4;
 grav = 0.2;
+slip_timer = 0;
 is_colliding = false;
 alphaamount = 0;
 incamount = 0.007;

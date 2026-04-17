@@ -5,8 +5,27 @@ jumpKey = keyboard_check_pressed(vk_space);
 sprintKey = keyboard_check(vk_shift);
 megaJumpKey = keyboard_check(vk_control);
 
-xspd = (rightKey - leftKey) * moveSpd;
+
+var _fric = 1;
+if (place_meeting(x, y + 1, obj_ice)) { 
+    _fric = 0.03;
+	slip_timer = 40;
+} else {
+	slip_timer = max(0, slip_timer - 1);
+}
+
+if(slip_timer > 0){
+	_fric = 0.04;
+} else if (!place_meeting(x, y + 1, obj_wall_parent)) {
+    _fric = 1; // Normal air resistance
+}
+
+var _target_xspd = (rightKey - leftKey) * moveSpd;
+
+xspd = lerp(xspd, _target_xspd, _fric);
+
 yspd += grav;
+target_xspd = (rightKey - leftKey) * moveSpd;
 
 
 function increase2(){
@@ -19,17 +38,17 @@ function increase2(){
 }
 
 
-if jumpKey && coyote_timer > 0{
-	yspd = jumpSpd;
-	coyote_timer = 0;
+if (jumpKey && coyote_timer > 0) {
+    yspd = jumpSpd;
+    coyote_timer = 0.5; 
 }
-if place_meeting(x, y+1, obj_wall){
+
+
+if place_meeting(x, y+1, obj_wall_parent){
 	coyote_timer = coyote_max;
-} else {
-	coyote_timer = max(0, coyote_timer - 1);
-}
-if place_meeting(x, y+1, obj_wall_2){
-	coyote_timer = coyote_max;
+	if(!place_meeting(x, y+1, obj_ice)){
+		slip_timer = 0;
+	}
 } else {
 	coyote_timer = max(0, coyote_timer - 1);
 }
@@ -47,36 +66,20 @@ jumpSpd = -4;
 show_debug_message(global.roomnumber)
 
 //collision
-if place_meeting(x + xspd, y, obj_wall){
+if place_meeting(x + xspd, y, obj_wall_parent){
 	var _pixelCheck = sign(xspd);
-	while !place_meeting(x + _pixelCheck, y, obj_wall){
+	while !place_meeting(x + _pixelCheck, y, obj_wall_parent){
 	x += _pixelCheck;
 	}
 	xspd = 0;
 }
-if place_meeting(x + xspd, y, obj_wall_2){
-	var _pixelCheck = sign(xspd);
-	while !place_meeting(x + _pixelCheck, y, obj_wall_2){
-	x += _pixelCheck;
-	}
-	xspd = 0;
-}
-
-if place_meeting(x + xspd, y + yspd, obj_wall){
+if place_meeting(x + xspd, y + yspd, obj_wall_parent){
 	var _pixelCheck = sign(yspd);
-	while !place_meeting(x + xspd, y + _pixelCheck, obj_wall){
+	while !place_meeting(x + xspd, y + _pixelCheck, obj_wall_parent){
 		y += _pixelCheck;
 	}
 	yspd = 0;
 }
-if place_meeting(x + xspd, y + yspd, obj_wall_2){
-	var _pixelCheck = sign(yspd);
-	while !place_meeting(x + xspd, y + _pixelCheck, obj_wall_2){
-		y += _pixelCheck;
-	}
-	yspd = 0;
-}
-
 if (place_meeting(x, y, obj_roomtransup)) {
     if (!is_colliding) {
 		if(global.roomnumber == 1){
