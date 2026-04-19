@@ -14,10 +14,11 @@ if (place_meeting(x, y + 1, obj_ice)) {
 	slip_timer = max(0, slip_timer - 1);
 }
 
+
 if(slip_timer > 0){
 	_fric = 0.04;
 } else if (!place_meeting(x, y + 1, obj_wall_parent)) {
-    _fric = 1; // Normal air resistance
+    _fric = 1;
 }
 
 var _target_xspd = (rightKey - leftKey) * moveSpd;
@@ -52,6 +53,17 @@ if place_meeting(x, y+1, obj_wall_parent){
 } else {
 	coyote_timer = max(0, coyote_timer - 1);
 }
+
+if (place_meeting(x, y + yspd, obj_slime)) {
+    if (yspd > 0) {
+        yspd = -yspd * 0.9; 
+        
+        if (abs(yspd) < 3) yspd = -3;
+        
+        coyote_timer = 0;
+    }
+}
+
 if sprintKey{
 moveSpd = 3.5;
 } else{
@@ -97,10 +109,9 @@ global.generatestars = 1;
 
         is_colliding = true;
     }
-} else {
+	} else {
     is_colliding = false;
-}
-}
+}}
 
 if (place_meeting(x, y, obj_roomtransdown)) {
     if (!is_colliding) {
@@ -321,6 +332,8 @@ if (place_meeting(x, y, obj_roomtransup_6)) {
 		global.roomnumber += 1;
 		audio_play_sound(mus_wasteland, 1, true);
 		audio_stop_sound(mus_windy_woods);
+		audio_sound_gain(mus_wasteland, 0, 0);
+		audio_sound_gain(mus_wasteland, 0.5, 2000);
 var _x = camera_get_view_x(_cam);
 var _y = camera_get_view_y(_cam);
 _y -= 180
@@ -371,6 +384,53 @@ global.generatestars = 1;
 }
 
 
+if (place_meeting(x, y, obj_roomtransup_7)) {
+    if (!is_colliding) {
+		if(global.roomnumber == 7){
+		var _cam = view_camera[0];
+		global.roomnumber += 1;
+var _x = camera_get_view_x(_cam);
+var _y = camera_get_view_y(_cam);
+_y -= 180
+camera_set_view_pos(_cam, _x, _y);
+layer_set_visible("cooleffects", false);
+call_later(0.5, time_source_units_seconds, function() {
+	layer_set_visible("cooleffects", true);
+});
+global.generatestars = 1;
+
+        is_colliding = true;
+    }
+} else {
+    is_colliding = false;
+}
+}
+
+if (place_meeting(x, y, obj_roomtransdown_7)) {
+    if (!is_colliding) {
+		if(global.roomnumber == 8){
+		var lay_id5 = layer_get_id("cooleffects");
+		layer_set_visible(lay_id5, true);
+		var _cam = view_camera[0];
+var _x = camera_get_view_x(_cam);
+var _y = camera_get_view_y(_cam);
+global.roomnumber -= 1;
+_y += 180
+camera_set_view_pos(_cam, _x, _y);
+layer_set_visible("cooleffects", false);
+call_later(0.5, time_source_units_seconds, function() {
+	layer_set_visible("cooleffects", true);
+});
+global.generatestars = 1;
+
+        is_colliding = true;
+    }
+} else {
+    is_colliding = false;
+}
+}
+
+
 if(place_meeting(x, y, obj_bobarea)){
 	if(global.bob = 0){
 		global.secretcubes += 1;
@@ -381,6 +441,6 @@ if(place_meeting(x, y, obj_bobarea)){
 }
 }
 
-
+//apply movement
 x += xspd;
 y += yspd;
