@@ -5,6 +5,10 @@ yspd = 0;
 coyote_max = 5;
 coyote_timer = 0;
 
+global.jumps = 0;
+global.megajumps = 0;
+global.falls = 0;
+
 moveSpd = 2;
 jumpSpd = -4;
 grav = 0.2;

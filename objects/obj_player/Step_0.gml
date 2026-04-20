@@ -40,8 +40,15 @@ function increase2(){
 
 
 if (jumpKey && coyote_timer > 0) {
+	if(megaJumpKey){
+		jumpSpd = -5;
+		global.megajumps += 1;
+	} else {
+		jumpSpd = -4;
+	}
+	global.jumps += 1;
     yspd = jumpSpd;
-    coyote_timer = 0.5; 
+    coyote_timer = 0.5;
 }
 
 
@@ -68,11 +75,6 @@ if sprintKey{
 moveSpd = 3.5;
 } else{
 moveSpd = 2;
-}
-if megaJumpKey{
-jumpSpd = -5;
-} else{
-jumpSpd = -4;
 }
 
 show_debug_message(global.roomnumber)
@@ -116,6 +118,7 @@ global.generatestars = 1;
 if (place_meeting(x, y, obj_roomtransdown)) {
     if (!is_colliding) {
 		if(global.roomnumber == 2){
+			global.falls += 1;
 		var _cam = view_camera[0];
 var _x = camera_get_view_x(_cam);
 var _y = camera_get_view_y(_cam);
@@ -162,6 +165,7 @@ global.generatestars = 1;
 if (place_meeting(x, y, obj_roomtransdown_2)) {
     if (!is_colliding) {
 		if(global.roomnumber == 3){
+			global.falls += 1;
 		var _cam = view_camera[0];
 var _x = camera_get_view_x(_cam);
 var _y = camera_get_view_y(_cam);
@@ -207,6 +211,7 @@ global.generatestars = 1;
 if (place_meeting(x, y, obj_roomtransdown_3)) {
     if (!is_colliding) {
 		if(global.roomnumber == 4){
+			global.falls += 1;
 		var _cam = view_camera[0];
 var _x = camera_get_view_x(_cam);
 var _y = camera_get_view_y(_cam);
@@ -252,6 +257,7 @@ global.generatestars = 1;
 if (place_meeting(x, y, obj_roomtransdown_4)) {
     if (!is_colliding) {
 		if(global.roomnumber == 5){
+			global.falls += 1;
 		var _cam = view_camera[0];
 var _x = camera_get_view_x(_cam);
 var _y = camera_get_view_y(_cam);
@@ -297,6 +303,7 @@ global.generatestars = 1;
 if (place_meeting(x, y, obj_roomtransdown_5)) {
     if (!is_colliding) {
 		if(global.roomnumber == 6){
+			global.falls += 1;
 		var lay_id5 = layer_get_id("cooleffects");
 		layer_set_visible(lay_id5, true);
 		var _cam = view_camera[0];
@@ -360,6 +367,7 @@ global.generatestars = 1;
 if (place_meeting(x, y, obj_roomtransdown_6)) {
     if (!is_colliding) {
 		if(global.roomnumber == 7){
+			global.falls += 1;
 		var lay_id5 = layer_get_id("cooleffects");
 		layer_enable_fx(lay_id5, true);
 		var _cam = view_camera[0];
@@ -409,6 +417,55 @@ global.generatestars = 1;
 if (place_meeting(x, y, obj_roomtransdown_7)) {
     if (!is_colliding) {
 		if(global.roomnumber == 8){
+			global.falls += 1;
+		var lay_id5 = layer_get_id("cooleffects");
+		layer_set_visible(lay_id5, true);
+		var _cam = view_camera[0];
+var _x = camera_get_view_x(_cam);
+var _y = camera_get_view_y(_cam);
+global.roomnumber -= 1;
+_y += 180
+camera_set_view_pos(_cam, _x, _y);
+layer_set_visible("cooleffects", false);
+call_later(0.5, time_source_units_seconds, function() {
+	layer_set_visible("cooleffects", true);
+});
+global.generatestars = 1;
+
+        is_colliding = true;
+    }
+} else {
+    is_colliding = false;
+}
+}
+
+
+if (place_meeting(x, y, obj_roomtransup_8)) {
+    if (!is_colliding) {
+		if(global.roomnumber == 8){
+		var _cam = view_camera[0];
+		global.roomnumber += 1;
+var _x = camera_get_view_x(_cam);
+var _y = camera_get_view_y(_cam);
+_y -= 180
+camera_set_view_pos(_cam, _x, _y);
+layer_set_visible("cooleffects", false);
+call_later(0.5, time_source_units_seconds, function() {
+	layer_set_visible("cooleffects", true);
+});
+global.generatestars = 1;
+
+        is_colliding = true;
+    }
+} else {
+    is_colliding = false;
+}
+}
+
+if (place_meeting(x, y, obj_roomtransdown_8)) {
+    if (!is_colliding) {
+		if(global.roomnumber == 9){
+			global.falls += 1;
 		var lay_id5 = layer_get_id("cooleffects");
 		layer_set_visible(lay_id5, true);
 		var _cam = view_camera[0];

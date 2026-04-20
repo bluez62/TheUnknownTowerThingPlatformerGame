@@ -4,8 +4,8 @@ if (timer >= 20) {
     timer = 0;
     instance_activate_all();
     var _range_w = 1200;
-    var _range_h = 800;
-    var _fall_buffer = 1500;
+    var _range_h = 600;
+    var _fall_buffer = 2;
     instance_deactivate_region(
         obj_player.x - _range_w, 
         obj_player.y - _range_h, 
